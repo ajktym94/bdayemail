@@ -16,7 +16,7 @@ from email.mime.text import MIMEText
 # Define the scope required by the Gmail API
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
-google_drive_folder_id = os.environ.get("GDRIVE_FOLDER_ID")
+google_drive_file_id = os.environ.get("GDRIVE_FILE_ID")
 credentials = os.environ.get('GDRIVE_CREDENTIALS')
 token = os.environ.get('GDRIVE_TOKEN')
 token_json = json.loads(token)
@@ -75,7 +75,7 @@ def download_csv_from_drive(file_id):
 # Main program
 if __name__ == "__main__":
 
-    file_path = download_csv_from_drive(FILE_ID)
+    file_path = download_csv_from_drive(google_drive_file_id)
     birthdays = pd.read_csv(file_path)
     
     # Get today's date in YYYY-MM-DD format
