@@ -1,5 +1,6 @@
 import os
 import io
+import json
 import shutil
 import base64
 import requests
@@ -14,23 +15,27 @@ from email.mime.text import MIMEText
 
 # Define the scope required by the Gmail API
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-FILE_ID = "1uFLyBwgRb70WSj7ztmMbqjo_sKV7CW2s"
+
+google_drive_folder_id = os.environ.get("GDRIVE_FOLDER_ID")
+credentials = os.environ.get('GDRIVE_CREDENTIALS')
+token = os.environ.get('GDRIVE_TOKEN')
+token_json = json.loads(token)
+credentials_json = json.loads(credentials)
 
 def gmail_authenticate():
     creds = None
     # Load existing credentials if available
     if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+        creds = Credentials.from_authorized_user_info(token_json)
     # If there are no (valid) credentials, prompt the user to log in
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_config(
+            credentials_json, SCOPES
+        )
             creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
     return creds
 
 def create_message(sender, to, subject, message_text):
