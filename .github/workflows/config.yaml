@@ -24,8 +24,10 @@ jobs:
 
       - name: Run Instagram Post Script
         env:
-          GDRIVE_CREDENTIALS: ${{ secrets.GDRIVE_CREDENTIALS }}
           GDRIVE_FILE_ID: ${{ secrets.GDRIVE_FILE_ID }}
-          GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}
+          MAIL_API: ${{ secrets.MAIL_API }}
+          API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+          SENDER: ${{ secrets.SENDER }}
+          RECEIVER: ${{ secrets.RECEIVER }}
         run: |
           python main.py
