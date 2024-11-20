@@ -3,7 +3,7 @@ name: Send Email
 on:
   workflow_dispatch:
   schedule:
-    - cron: "* 19 * * *" 
+    - cron: "0 19 * * *" 
 
 jobs:
   post-to-instagram:
